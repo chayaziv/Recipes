@@ -57,6 +57,8 @@ const Recipe = () => {
         sx={{
           maxWidth: 700,
           width: "100%",
+          maxHeight: "80vh", // מגביל את גובה הכרטיס
+          overflowY: "auto", // מאפשר גלילה אם התוכן חורג
           boxShadow: 4,
           borderRadius: 3,
           p: 2,
@@ -68,8 +70,9 @@ const Recipe = () => {
           isAuthor={auth.user.id == recipe.authorId}
         />
 
-        <CardContent>
+        <CardContent  sx={{ maxHeight: "60vh" }}>
           {/* כותרת המתכון */}
+         
           <Typography variant="h4" align="center" fontWeight="bold" mb={2}>
             {recipe.title}
           </Typography>

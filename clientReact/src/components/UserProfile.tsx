@@ -10,7 +10,7 @@ import {
   Divider,
   IconButton,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logout from "./Logout";
 import MyAvatar from "./MyAvatar";
 
@@ -19,9 +19,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const UserProfile = () => {
-  const { auth } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
+  const navigate = useNavigate();
+  const { auth, userDispatch } = useContext(AuthContext);
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -83,40 +83,50 @@ const UserProfile = () => {
         <Divider />
 
         {/* Edit Profile Button (No Background Color) */}
-        <MenuItem onClick={handleMenuClose} sx={{ px: 3, py: 1.5 }}>
-          <Button
-            fullWidth
-            component={Link}
-            to="/edit"
-            startIcon={<EditIcon />}
-            sx={{
-              textTransform: "none",
-              fontSize: "16px",
-              fontWeight: "bold",
-              color: "text.primary", // No color background, just text
-            }}
-          >
-            Edit Details
-          </Button>
+        <MenuItem
+          component={Link}
+          to="/edit"
+          onClick={handleMenuClose}
+          sx={{
+            px: 3,
+            py: 1.5,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "text.primary",
+          }}
+        >
+          <EditIcon />
+          Edit Details
         </MenuItem>
 
         <Divider />
 
         {/* Logout Button */}
-        <MenuItem onClick={handleMenuClose} sx={{ px: 3, py: 1.5 }}>
-          <Button
-            fullWidth
-            startIcon={<ExitToAppIcon />}
-            sx={{
-              textTransform: "none",
-              fontSize: "16px",
-              fontWeight: "bold",
-              color: "error.main", // Red text for logout
-              "&:hover": { color: "error.dark" },
-            }}
-          >
-            <Logout />
-          </Button>
+        <MenuItem
+          onClick={() => {
+            userDispatch({
+              type: "DELETE_USER",
+              id: auth.user.id,
+            });
+            navigate("/");
+          }}
+          sx={{
+            px: 3,
+            py: 1.5,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "error.main",
+            "&:hover": { color: "error.dark" },
+          }}
+        >
+          <ExitToAppIcon />
+          Logout
         </MenuItem>
       </Menu>
     </>

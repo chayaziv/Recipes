@@ -112,6 +112,25 @@
       "lastName": "",
       "address": "",
       "phone": "00000000000000"
+    },
+    {
+      "id": 1738307303936,
+      "email": "dd@org.il",
+      "password": "1"
+    },
+    {
+      "id": 1738308339969,
+      "email": "chy@gmail.com",
+      "password": "1"
+    },
+    {
+      "id": 1738308761810,
+      "email": "sss@gmail.com",
+      "password": "2",
+      "firstName": "Chaya",
+      "lastName": "",
+      "address": "",
+      "phone": ""
     }
   ],
   "recipes": [

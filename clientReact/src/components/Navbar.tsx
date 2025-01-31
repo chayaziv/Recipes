@@ -1,23 +1,27 @@
-import { Button } from "@mui/material";
-import { useContext } from "react";
-import { Link } from "react-router";
-import { AuthContext } from "../reducer/userReducer";
+import { Button, Stack, Divider } from "@mui/material";
+import { Home, Info, RestaurantMenu } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <>
-      <Button component={Link} to="/home" color="inherit">
+    <Stack direction="row" spacing={2} alignItems="center">
+      <Button component={Link} to="/home" color="inherit" startIcon={<Home />}>
         Home
       </Button>
-
-      <Button component={Link} to="/about" color="inherit">
+      <Divider orientation="vertical" flexItem />
+      <Button component={Link} to="/about" color="inherit" startIcon={<Info />}>
         About
       </Button>
-
-      <Button component={Link} to="/recepies" color="inherit">
-        recepies
+      <Divider orientation="vertical" flexItem />
+      <Button
+        component={Link}
+        to="/recepies"
+        color="inherit"
+        startIcon={<RestaurantMenu />}
+      >
+        Recipes
       </Button>
-    </>
+    </Stack>
   );
 };
 
