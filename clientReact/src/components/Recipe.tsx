@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { StoreType } from "../store/store";
-import useApi from "../api/api";
+import { getAuthorNameByRecipeId } from "../utils/api";
 import RecipeAuthor from "./RecipeAuthor";
 import RecipeDetails from "./RecipeDetails";
 import { Box, Card, CardContent, Typography } from "@mui/material";
@@ -11,7 +11,6 @@ import ApiError from "./ApiError";
 
 const Recipe = () => {
   const { id } = useParams<{ id: string }>();
-  const { getAuthorNameByRecipeId } = useApi();
   const { auth } = useContext(AuthContext);
 
   const [authorName, setAuthorName] = useState<string | null>(null);
@@ -22,17 +21,16 @@ const Recipe = () => {
   );
 
   useEffect(() => {
-    if (recipe) {
-      getAuthorNameByRecipeId(recipe.id.toString())
-        .then((response) => {
-          if (response?.ok)
-            setAuthorName(response?.data.authorName || "Unknown");
-          else setError("Failed to fetch author name");
-        })
-        .catch(() => {
-          setError("Failed to fetch author name");
-        });
-    }
+    const fetchAuthorName = async () => {
+      if (!recipe) return;
+      const res = await getAuthorNameByRecipeId(recipe.id.toString());
+      if (res?.ok) {
+        setAuthorName(res?.data?.authorName || "Unknown");
+      } else {
+        setError("Failed to fetch author name");
+      }
+    };
+    fetchAuthorName();
   }, [recipe, getAuthorNameByRecipeId]);
 
   if (!recipe) {
@@ -43,7 +41,6 @@ const Recipe = () => {
         alignItems="center"
         height="100vh"
       >
-        {error && <ApiError message={error}></ApiError>}
         <Typography variant="h6" color="error">
           Recipe not found!
         </Typography>
@@ -52,40 +49,39 @@ const Recipe = () => {
   }
 
   return (
-    <Box display="flex" justifyContent="center" mt={4}>
-      <Card
-        sx={{
-          maxWidth: 700,
-          width: "100%",
-          maxHeight: "80vh", // מגביל את גובה הכרטיס
-          overflowY: "auto", // מאפשר גלילה אם התוכן חורג
-          boxShadow: 4,
-          borderRadius: 3,
-          p: 2,
-        }}
-      >
-        {/* מחבר המתכון */}
-        <RecipeAuthor
-          authorName={authorName}
-          isAuthor={auth.user.id == recipe.authorId}
-        />
-
-        <CardContent  sx={{ maxHeight: "60vh" }}>
-          {/* כותרת המתכון */}
-         
-          <Typography variant="h4" align="center" fontWeight="bold" mb={2}>
-            {recipe.title}
-          </Typography>
-
-          {/* פרטי המתכון */}
-          <RecipeDetails
-            description={recipe.description}
-            ingredients={recipe.ingredients}
-            instructions={recipe.instructions}
+    <>
+      {error && <ApiError message={error}></ApiError>}
+      <Box display="flex" justifyContent="center" mt={4}>
+        <Card
+          sx={{
+            maxWidth: 700,
+            width: "100%",
+            maxHeight: "80vh",
+            overflowY: "auto",
+            boxShadow: 4,
+            borderRadius: 3,
+            p: 2,
+          }}
+        >
+          <RecipeAuthor
+            authorName={authorName || "Unknown"}
+            isAuthor={auth.user.id == recipe.authorId}
           />
-        </CardContent>
-      </Card>
-    </Box>
+
+          <CardContent sx={{ maxHeight: "60vh" }}>
+            <Typography variant="h4" align="center" fontWeight="bold" mb={2}>
+              {recipe.title}
+            </Typography>
+
+            <RecipeDetails
+              description={recipe.description}
+              ingredients={recipe.ingredients}
+              instructions={recipe.instructions}
+            />
+          </CardContent>
+        </Card>
+      </Box>
+    </>
   );
 };
 

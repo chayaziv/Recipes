@@ -5,8 +5,6 @@ import userReducer, { AuthContext, initialState } from "./reducer/userReducer";
 import { useReducer } from "react";
 import store from "./store/store";
 import { Provider } from "react-redux";
-import ApiError from "./components/ApiError";
-import useApiRequest from "./hooks/useApiRequest";
 
 const theme = createTheme({
   palette: {
@@ -22,8 +20,6 @@ const theme = createTheme({
 
 function App() {
   const [auth, userDispatch] = useReducer(userReducer, initialState);
-  const { openError, error } = useApiRequest();
-  console.log(openError, error);
 
   return (
     <>

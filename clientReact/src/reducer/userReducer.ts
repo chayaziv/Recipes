@@ -28,7 +28,7 @@ type Action =
       user: UserType;
     };
 
-const emptyUser: UserType = {
+export const emptyUser: UserType = {
   id: 0,
   firstName: "",
   lastName: "",
@@ -57,7 +57,6 @@ export const AuthContext = createContext<{
 });
 
 export default (state: AuthUser, action: Action): AuthUser => {
-  console.log({ action });
 
   switch (action.type) {
     case "ADD_USER":

@@ -9,7 +9,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../reducer/userReducer";
 import { useNavigate } from "react-router-dom";
-import useApi from "../api/api";
+import { editUser } from "../utils/api";
 import ApiError from "./ApiError";
 import MyTextField from "../components/MyTextField";
 
@@ -25,7 +25,6 @@ const Edit = () => {
   const { auth, userDispatch } = useContext(AuthContext);
   const [user, setUser] = useState(auth.user);
   const navigate = useNavigate();
-  const { editUser } = useApi();
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
@@ -35,22 +34,12 @@ const Edit = () => {
   if (!auth.isLogin) return null;
 
   const update = async () => {
-    try {
-      const res = await editUser("" + auth.user.id, { ...user });
-
-      if (res?.ok) {
-        userDispatch({ type: "UPDATE_USER", user: res?.data });
-        navigate("/"); // חזרה לדף הראשי לאחר שמירה
-      } else if (
-        res?.status == 400 ||
-        res?.status == 401 ||
-        res?.status == 403 ||
-        res?.status == 404
-      ) {
-        setError("An unexpected error occurred.");
-      }
-    } catch {
-      setError("");
+    const res = await editUser("" + auth.user.id, { ...user });
+    if (res?.ok && res?.data) {
+      userDispatch({ type: "UPDATE_USER", user: res?.data });
+      navigate("/");
+    } else {
+      setError(res?.error || "");
     }
   };
 

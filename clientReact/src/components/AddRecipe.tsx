@@ -1,9 +1,8 @@
-
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { addRecipe } from "../store/recipesSlice";
 import RecipeForm from "./RecipeForm";
-import { emptyRecipeType, RecipeType } from "../types/RecipeType";
+import { emptyRecipeType, RecipeType } from "../types/recipe";
 import { useContext } from "react";
 import { AuthContext } from "../reducer/userReducer";
 import * as yup from "yup";

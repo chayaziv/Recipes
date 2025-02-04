@@ -30,7 +30,7 @@ const MyAvatar = ({ firstName, onClick, size = 40, margin = 0 }: Props) => {
       <Avatar
         onClick={onClick}
         sx={{
-          bgcolor: stringToColor(firstName),
+          bgcolor: stringToColor(firstName || ""),
           width: size,
           height: size,
           margin: margin,

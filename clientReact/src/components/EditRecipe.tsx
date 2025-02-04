@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { StoreType, AppDispatch } from "../store/store";
 import { updateRecipe } from "../store/recipesSlice";
 import RecipeForm from "./RecipeForm";
-import { emptyRecipeType, RecipeType } from "../types/RecipeType";
+import { emptyRecipeType, RecipeType } from "../types/recipe";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import schemaRecipe from "../fromSchemas/schemas";
@@ -44,7 +44,7 @@ const EditRecipe = () => {
     dispatch(
       updateRecipe({ recipe: updatedRecipe, userId: "" + auth.user.id })
     );
-    navigate(`/recepies/${updatedRecipe.id}`);
+    //navigate(`/recepies/${updatedRecipe.id}`);
   };
 
   return (

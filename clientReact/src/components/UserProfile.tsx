@@ -6,12 +6,10 @@ import {
   Typography,
   Menu,
   MenuItem,
-  Button,
   Divider,
   IconButton,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import Logout from "./Logout";
 import MyAvatar from "./MyAvatar";
 
 // Icons

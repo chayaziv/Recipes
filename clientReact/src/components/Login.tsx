@@ -5,8 +5,8 @@ import {
   type AuthProvider,
   type AuthResponse,
 } from "@toolpad/core/SignInPage";
-import useApi from "../api/api";
-import { AuthContext } from "../reducer/userReducer";
+import { login, register } from "../utils/api";
+import { AuthContext, emptyUser } from "../reducer/userReducer";
 import ApiError from "./ApiError";
 
 const providers = [
@@ -17,43 +17,35 @@ const providers = [
 
 const Login = ({ isSignIn }: { isSignIn: boolean }) => {
   const { userDispatch } = useContext(AuthContext);
-  const { login, register } = useApi();
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
 
   const handleSubmit = async (email: string, password: string) => {
-    try {
-      const res = isSignIn
-        ? await login(email, password)
-        : await register(email, password);
-      if (res?.ok) {
+    if (isSignIn) {
+      const res = await login(email, password);
+      if (res.ok && res.data) {
+        userDispatch({ type: "SET_USER", user: res.data.user || emptyUser });
+        navigate("/");
+      } else {
+        setError(res.error || "");
+      }
+    } else {
+      const res = await register(email, password);
+      if (res.ok && res.data) {
         userDispatch({
-          type: isSignIn ? "SET_USER" : "ADD_USER",
-          user: isSignIn
-            ? res.data.user
-            : { id: res.data.userId, email, password },
+          type: "ADD_USER",
+          user: { id: res.data.userId, email, password },
         });
         navigate("/");
       } else {
-        if (
-          res?.status == 400 ||
-          res?.status == 401 ||
-          res?.status == 403 ||
-          res?.status == 404
-        )
-          setError(res?.data);
+        setError(res.error || "");
       }
-    } catch (e) {
-      setError("An unexpected error occurred.");
     }
   };
 
   const signIn = async (provider: AuthProvider, formData: FormData) => {
     return new Promise<AuthResponse>((resolve) => {
       setTimeout(() => {
-        console.log(
-          `Signing in with "${provider.name}" and credentials: ${formData?.get("email")}, ${formData?.get("password")}`
-        );
         if (provider.id === "credentials") {
           const email = formData.get("email") as string;
           const password = formData.get("password") as string;

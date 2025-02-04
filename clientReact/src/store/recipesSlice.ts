@@ -1,70 +1,64 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
-
-import { useContext } from 'react'
-import { AuthContext } from '../reducer/userReducer'
-import { RecipeType } from '../types/RecipeType'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { RecipeType } from "../types/recipe";
 
 export const fetchData = createAsyncThunk(
-  'recipes/fetch',
+  "recipes/fetch",
   async (_, thunkAPI) => {
     try {
-      console.log('in async thunk')
-      const response = await axios.get('http://localhost:3000/api/recipes')
-      return response.data as RecipeType[]
-    } catch (e:any) {
-      return thunkAPI.rejectWithValue(e.message)
+      const response = await axios.get("http://localhost:3000/api/recipes");
+      return response.data as RecipeType[];
+    } catch (e: any) {
+      return thunkAPI.rejectWithValue(e.message);
     }
-  },
-)
+  }
+);
 
 export const addRecipe = createAsyncThunk(
-  'recipes/add',
+  "recipes/add",
 
   async (
     { recipe, userId }: { recipe: RecipeType; userId: string },
-    thunkAPI,
+    thunkAPI
   ) => {
     try {
-      console.log('in async thunk')
       const response = await axios.post(
-        'http://localhost:3000/api/recipes',
+        "http://localhost:3000/api/recipes",
         {
           ...recipe,
         },
-        { headers: { 'user-id': userId } },
-      )
+        { headers: { "user-id": userId } }
+      );
 
-      return response.data.recipe
-    } catch (e:any) {
-      return thunkAPI.rejectWithValue(e.message)
+      return response.data.recipe;
+    } catch (e: any) {
+      return thunkAPI.rejectWithValue(e.message);
     }
-  },
-)
+  }
+);
 export const updateRecipe = createAsyncThunk(
-  'recipes/update',
+  "recipes/update",
   async (
     { recipe, userId }: { recipe: RecipeType; userId: string },
-    thunkAPI,
+    thunkAPI
   ) => {
     try {
-      console.log('Updating recipe in async thunk')
       const response = await axios.put(
         `http://localhost:3000/api/recipes/${recipe.id}`,
         recipe,
         {
-          headers: { 'user-id': userId },
-        },
-      )
-      return response.data.recipe
-    } catch (e:any) {
-      return thunkAPI.rejectWithValue(e.message)
+          headers: { "user-id": userId },
+        }
+      );
+      return response.data.recipe;
+    } catch (e: any) {
+      return thunkAPI.rejectWithValue(e.message);
     }
-  },
-)
+  }
+);
 
 const recipesSlice = createSlice({
-  name: 'recipes',
+  name: "recipes",
   initialState: { list: [] as RecipeType[], loading: true },
   reducers: {},
   extraReducers: (builder) => {
@@ -73,51 +67,49 @@ const recipesSlice = createSlice({
         fetchData.fulfilled,
         (
           state: { list: RecipeType[]; loading: boolean },
-          action: { payload: RecipeType[] },
+          action: { payload: RecipeType[] }
         ) => {
-          console.log('fulfilled')
-          state.loading = false
-          const all = [...action.payload, ...state.list]
+          state.loading = false;
+          const all = [...action.payload, ...state.list];
           const uniqueRecipes = all.filter(
             (recipe, index, self) =>
-              index === self.findIndex((r) => r.id === recipe.id),
-          )
-          state.list = [...uniqueRecipes]
-        },
+              index === self.findIndex((r) => r.id === recipe.id)
+          );
+          state.list = [...uniqueRecipes];
+        }
       )
       .addCase(
         fetchData.rejected,
         (state: { list: RecipeType[]; loading: boolean }) => {
-          console.log('failed')
-        },
+          console.log("failed");
+        }
       )
       .addCase(
         addRecipe.fulfilled,
         (
           state: { list: RecipeType[]; loading: boolean },
-          action: { payload: RecipeType },
+          action: { payload: RecipeType }
         ) => {
-          console.log('fulfilled')
-          state.loading = false
-          state.list = [...state.list, { ...action.payload }]
-        },
+          state.loading = false;
+          state.list = [...state.list, { ...action.payload }];
+        }
       )
       .addCase(
         addRecipe.rejected,
         (state: { list: RecipeType[]; loading: boolean }) => {
-          console.log('failed')
-        },
+          console.log("failed");
+        }
       )
       .addCase(updateRecipe.fulfilled, (state, action) => {
-        console.log('Recipe updated successfully')
-        state.loading = false
+        console.log("Recipe updated successfully");
+        state.loading = false;
         state.list = state.list.map((recipe) =>
-          recipe.id === action.payload.id ? action.payload : recipe,
-        )
+          recipe.id === action.payload.id ? action.payload : recipe
+        );
       })
       .addCase(updateRecipe.rejected, (state) => {
-        console.log('Update failed')
-      })
+        console.log("Update failed");
+      });
   },
-})
-export default recipesSlice
+});
+export default recipesSlice;

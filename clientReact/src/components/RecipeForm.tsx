@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Container, Typography, Button, Box } from "@mui/material";
-import { RecipeType, emptyRecipeType } from "../types/RecipeType";
+import { RecipeType, emptyRecipeType } from "../types/recipe";
 import { AuthContext } from "../reducer/userReducer";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";

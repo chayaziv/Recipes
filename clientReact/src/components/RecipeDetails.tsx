@@ -10,7 +10,7 @@ interface RecipeDetailsProps {
 const RecipeDetails: React.FC<RecipeDetailsProps> = ({ description, ingredients, instructions }) => {
   return (
     <Box>
-      {/* תיאור המתכון */}
+    
       <Paper sx={{ p: 2, mb: 3, bgcolor: "grey.100", borderRadius: 2 }}>
         <Typography variant="h5" display="flex" alignItems="center" gutterBottom>
           <Description sx={{ mr: 1, color: "text.secondary" }} />
@@ -21,7 +21,7 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ description, ingredients,
 
       <Divider sx={{ my: 3 }} />
 
-      {/* רשימת מרכיבים */}
+      
       <Typography variant="h5" display="flex" alignItems="center" gutterBottom>
         <Kitchen sx={{ mr: 1, color: "primary.main" }} /> Ingredients
       </Typography>
@@ -38,7 +38,7 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ description, ingredients,
 
       <Divider sx={{ my: 3 }} />
 
-      {/* הוראות הכנה */}
+     
       <Typography variant="h5" display="flex" alignItems="center" gutterBottom>
         <MenuBook sx={{ mr: 1, color: "primary.main" }} /> Instructions
       </Typography>
