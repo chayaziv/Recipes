@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dbPath = path.join(__dirname, '../db/db.json');
 
-// רישום משתמש חדש
+
 router.post('/register', (req, res) => {
     const { email, password } = req.body;
     const db = JSON.parse(fs.readFileSync(dbPath));
@@ -21,7 +21,7 @@ router.post('/register', (req, res) => {
     const newUser = {
         id: Date.now(),
         email,
-        password  // במציאות – להצפין סיסמא
+        password  
     };
 
     db.users.push(newUser);
@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
     res.status(201).json({ message: "User registered successfully", userId: newUser.id });
 });
 
-// התחברות
+
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
     const db = JSON.parse(fs.readFileSync(dbPath));

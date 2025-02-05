@@ -30,8 +30,6 @@ function App() {
           </ThemeProvider>
         </Provider>
       </AuthContext>
-
-      {/* <ApiError error={error} open={openError} /> */}
     </>
   );
 }

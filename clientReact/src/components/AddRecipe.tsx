@@ -20,9 +20,9 @@ const AddRecipe = () => {
       description: data.description,
       instructions: data.instructions,
       ingredients: data.ingredients
-        .split(",") // מחלק את המחרוזת למערך
-        .map((item: string) => item.trim()) // מסיר רווחים מכל מרכיב
-        .filter((item: string) => item !== ""), // מסנן איברים ריקים
+        .split(",") 
+        .map((item: string) => item.trim()) 
+        .filter((item: string) => item !== ""), 
     };
     dispatch(addRecipe({ recipe: newRecipe, userId: "" + auth.user.id }));
   };

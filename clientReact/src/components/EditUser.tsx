@@ -5,15 +5,15 @@ import {
   CardContent,
   FormControl,
   Typography,
+  IconButton,
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../reducer/userReducer";
 import { useNavigate } from "react-router-dom";
 import { editUser } from "../utils/api";
 import ApiError from "./ApiError";
-import MyTextField from "../components/MyTextField";
+import MyTextField from "./MyTextField";
 
-// אייקונים
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import HomeIcon from "@mui/icons-material/Home";
@@ -58,11 +58,20 @@ const Edit = () => {
         mx: "auto",
         mt: 4,
         p: 3,
+        position: "relative",
       }}
     >
       {error && <ApiError message={error} />}
-      <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
+      <Card sx={{ boxShadow: 4, borderRadius: 2, position: "relative" }}>
         <CardContent>
+      
+          <IconButton
+            onClick={() => navigate("/")}
+            sx={{ position: "absolute", top: 8, right: 8, color: "red" }}
+          >
+            <CancelIcon />
+          </IconButton>
+
           <Typography
             variant="h5"
             textAlign="center"
@@ -83,25 +92,16 @@ const Edit = () => {
               />
             ))}
 
-            {/* כפתורים */}
-            <Box display="flex" justifyContent="space-between" mt={2}>
+           
+            <Box display="flex" justifyContent="center" mt={2}>
               <Button
                 onClick={update}
                 variant="contained"
                 color="primary"
                 startIcon={<SaveIcon />}
-                sx={{ flex: 1, mr: 1 }}
+                sx={{ flex: 1 }}
               >
                 Save Changes
-              </Button>
-              <Button
-                onClick={() => navigate("/")}
-                variant="outlined"
-                color="secondary"
-                startIcon={<CancelIcon />}
-                sx={{ flex: 1, ml: 1 }}
-              >
-                Cancel
               </Button>
             </Box>
           </FormControl>

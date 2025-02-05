@@ -1,16 +1,11 @@
-import { useContext, useEffect } from "react";
+import {  useEffect } from "react";
 import { Container, Typography, Button, Box } from "@mui/material";
 import { RecipeType, emptyRecipeType } from "../types/recipe";
-import { AuthContext } from "../reducer/userReducer";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import schema from "../fromSchemas/schemas";
 import MyTextField from "../components/MyTextField";
-
-// Icons
 import TitleIcon from "@mui/icons-material/Title";
 import DescriptionIcon from "@mui/icons-material/Description";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
@@ -31,9 +26,7 @@ const RecipeForm = ({
   formTitle,
   onSubmit,
 }: RecipeFormProps) => {
-  const { auth } = useContext(AuthContext);
-  const dispatch = useDispatch<AppDispatch>();
-
+  
   const {
     register,
     handleSubmit,

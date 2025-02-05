@@ -3,7 +3,7 @@ import { Home } from "./components/Home";
 import About from "./components/About";
 import AppLayout from "./components/AppLayout";
 
-import Edit from "./components/Edit";
+import Edit from "./components/EditUser";
 import RecipesList from "./components/RecipesList";
 
 import AddRecipe from "./components/AddRecipe";
@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
     path: "/",
     element: <AppLayout />,
     children: [
-      { path: "home", element: <Home /> },
+      { path: "/", element: <Home /> },
       { path: "about", element: <About /> },
       { path: "edit", element: <Edit /> },
       { path: "signIn", element: <Login isSignIn={true} /> },

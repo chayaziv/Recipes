@@ -4,10 +4,7 @@ import { StoreType, AppDispatch } from "../store/store";
 import { updateRecipe } from "../store/recipesSlice";
 import RecipeForm from "./RecipeForm";
 import { emptyRecipeType, RecipeType } from "../types/recipe";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import schemaRecipe from "../fromSchemas/schemas";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import * as yup from "yup";
 import schema from "../fromSchemas/schemas";
 import { AuthContext } from "../reducer/userReducer";
@@ -18,7 +15,7 @@ const EditRecipe = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const { auth } = useContext(AuthContext);
-  const navigate = useNavigate();
+
 
   const recipe =
     useSelector((store: StoreType) =>
@@ -44,7 +41,7 @@ const EditRecipe = () => {
     dispatch(
       updateRecipe({ recipe: updatedRecipe, userId: "" + auth.user.id })
     );
-    //navigate(`/recepies/${updatedRecipe.id}`);
+
   };
 
   return (

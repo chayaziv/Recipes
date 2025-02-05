@@ -1,11 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, StoreType } from "../store/store";
 import { fetchData } from "../store/recipesSlice";
 import { AuthContext } from "../reducer/userReducer";
 import { Link, Outlet } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-
 import {
   Box,
   Divider,
@@ -18,6 +17,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import RecipeSearch from "./RecipeSearch";
 
 const RecipesList = () => {
   const { list: recipesList } = useSelector(
@@ -25,15 +25,23 @@ const RecipesList = () => {
   );
   const dispatch = useDispatch<AppDispatch>();
   const { auth } = useContext(AuthContext);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
 
+  const filteredRecipes = recipesList.filter((recipe) =>
+    recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Grid container spacing={2} sx={{ height: "100vh", p: 2 }}>
-      {/* Sidebar - Recipe List */}
-      <Grid item xs={3} sx={{ height: "100%" }}>
+      <Grid
+        item
+        xs={3}
+        sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+      >
         <Paper
           elevation={3}
           sx={{
@@ -43,7 +51,6 @@ const RecipesList = () => {
             overflow: "hidden",
           }}
         >
-          {/* Header */}
           <Box
             sx={{
               display: "flex",
@@ -72,9 +79,10 @@ const RecipesList = () => {
             )}
           </Box>
 
+          <RecipeSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
           <Divider sx={{ my: 2 }} />
 
-          {/* Recipe List */}
           <List
             sx={{
               flexGrow: 1,
@@ -84,7 +92,7 @@ const RecipesList = () => {
               minHeight: 0,
             }}
           >
-            {recipesList.map((r) => (
+            {filteredRecipes.map((r) => (
               <ListItem key={r.id} disablePadding sx={{ mb: 1 }}>
                 <ListItemButton
                   component={Link}
@@ -108,8 +116,7 @@ const RecipesList = () => {
         </Paper>
       </Grid>
 
-      {/* Main Content */}
-      <Grid item xs={9} >
+      <Grid item xs={9}>
         <Box sx={{ p: 3, height: "100%", overflowY: "auto" }}>
           <Outlet />
         </Box>

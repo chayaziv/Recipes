@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <Stack direction="row" spacing={2} alignItems="center">
-      <Button component={Link} to="/home" color="inherit" startIcon={<Home />}>
+      <Button component={Link} to="" color="inherit" startIcon={<Home />}>
         Home
       </Button>
       <Divider orientation="vertical" flexItem />

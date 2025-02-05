@@ -19,11 +19,7 @@ const ApiError = ({ message}: { message: string; }) => {
       >
         <Alert
           severity="error"
-          sx={{
-            fontSize: "1.5rem", // מגדיל את גודל הטקסט
-            padding: "20px", // מוסיף ריווח פנימי
-            width: "100%", // מרחיב לכל הרוחב
-          }}
+         
         >
           {message}
         </Alert>

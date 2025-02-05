@@ -9,13 +9,13 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const dbPath = path.join(__dirname, '../db/db.json')
 
-// שליפת כל המתכונים
+
 router.get('/', (req, res) => {
   const db = JSON.parse(fs.readFileSync(dbPath))
   res.json(db.recipes)
 })
 
-// הוספת מתכון (רק למשתמש מחובר)
+
 router.post('/', authMiddleware, (req, res) => {
   const { title, description, products, ingredients, instructions } = req.body
   const db = JSON.parse(fs.readFileSync(dbPath))
@@ -35,7 +35,7 @@ router.post('/', authMiddleware, (req, res) => {
 
   res.status(201).json({ message: 'Recipe added', recipe: newRecipe })
 })
-// שליפת שם המחבר לפי ID של מתכון
+
 router.get('/author/name/:recipeId', (req, res) => {
   const { recipeId } = req.params
   const db = JSON.parse(fs.readFileSync(dbPath))
@@ -53,16 +53,16 @@ router.get('/author/name/:recipeId', (req, res) => {
   const authorName = `${author.firstName || ''} ${author.lastName || ''}`.trim()
   res.json({ authorName: authorName || 'Unknown' })
 })
-// עדכון מתכון (רק למשתמש מחובר)
+
 router.put('/:id', authMiddleware, (req, res) => {
   const { id } = req.params
   const { title, description, ingredients, instructions } = req.body
-  const userId = req.header('user-id') // קבלת מזהה המשתמש מהבקשה
+  const userId = req.header('user-id') 
 
-  // קריאת בסיס הנתונים
+
   const db = JSON.parse(fs.readFileSync(dbPath))
 
-  // מציאת המתכון המתאים
+
   const recipeIndex = db.recipes.findIndex(
     (recipe) => recipe.id.toString() === id,
   )
@@ -70,14 +70,14 @@ router.put('/:id', authMiddleware, (req, res) => {
     return res.status(404).json({ message: 'Recipe not found' })
   }
 
-  // בדיקה שהמשתמש הוא היוצר של המתכון
+
   if (db.recipes[recipeIndex].authorId.toString() !== userId) {
     return res
       .status(403)
       .json({ message: 'Unauthorized: You can only edit your own recipes' })
   }
 
-  // עדכון הערכים של המתכון
+
   db.recipes[recipeIndex] = {
     ...db.recipes[recipeIndex],
     title,
@@ -86,10 +86,10 @@ router.put('/:id', authMiddleware, (req, res) => {
     instructions,
   }
 
-  // שמירת העדכון בקובץ
+
   fs.writeFileSync(dbPath, JSON.stringify(db, null, 2))
 
-  // החזרת המתכון המעודכן
+
   res.json({
     message: 'Recipe updated successfully',
     recipe: db.recipes[recipeIndex],

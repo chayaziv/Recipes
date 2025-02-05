@@ -82,6 +82,7 @@ const recipesSlice = createSlice({
         fetchData.rejected,
         (state: { list: RecipeType[]; loading: boolean }) => {
           console.log("failed");
+          alert("Failed to load recipes");
         }
       )
       .addCase(
@@ -98,6 +99,7 @@ const recipesSlice = createSlice({
         addRecipe.rejected,
         (state: { list: RecipeType[]; loading: boolean }) => {
           console.log("failed");
+          alert("Failed to add recipe");
         }
       )
       .addCase(updateRecipe.fulfilled, (state, action) => {
@@ -109,6 +111,7 @@ const recipesSlice = createSlice({
       })
       .addCase(updateRecipe.rejected, (state) => {
         console.log("Update failed");
+        alert("Failed to update recipe");
       });
   },
 });

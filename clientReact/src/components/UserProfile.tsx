@@ -12,7 +12,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import MyAvatar from "./MyAvatar";
 
-// Icons
+
 import EditIcon from "@mui/icons-material/Edit";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
@@ -34,7 +34,7 @@ const UserProfile = () => {
 
   return (
     <>
-      {/* Profile Avatar (No Dropdown Arrow) */}
+     
       <Box>
         <Tooltip title="Open profile">
           <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
@@ -43,7 +43,7 @@ const UserProfile = () => {
         </Tooltip>
       </Box>
 
-      {/* Profile Dropdown Menu */}
+    
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -53,19 +53,19 @@ const UserProfile = () => {
             width: 320,
             boxShadow: 4,
             borderRadius: "12px",
-            backgroundColor: "#f5f5f5", // Light gray background
+            backgroundColor: "#f5f5f5", 
             overflow: "hidden",
           },
         }}
       >
-        {/* Profile Header */}
+      
         <Box
           sx={{
             padding: 3,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            bgcolor: "#f5f5f5", // Light gray background
+            bgcolor: "#f5f5f5", 
             borderRadius: "12px 12px 0 0",
           }}
         >
@@ -80,7 +80,7 @@ const UserProfile = () => {
 
         <Divider />
 
-        {/* Edit Profile Button (No Background Color) */}
+       
         <MenuItem
           component={Link}
           to="/edit"
@@ -102,7 +102,7 @@ const UserProfile = () => {
 
         <Divider />
 
-        {/* Logout Button */}
+       
         <MenuItem
           onClick={() => {
             userDispatch({

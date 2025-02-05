@@ -2,7 +2,7 @@ import { TextField, InputAdornment, TextFieldProps } from "@mui/material";
 import { ReactNode } from "react";
 
 type MyTextFieldProps = TextFieldProps & {
-  icon?: ReactNode; // תמיכה באייקון אופציונלי
+  icon?: ReactNode; 
 };
 
 const MyTextField = ({ icon, ...props }: MyTextFieldProps) => (
@@ -14,7 +14,7 @@ const MyTextField = ({ icon, ...props }: MyTextFieldProps) => (
       startAdornment: icon ? (
         <InputAdornment position="start">{icon}</InputAdornment>
       ) : undefined,
-      ...props.InputProps, // שמירה על כל ההגדרות הנוספות
+      ...props.InputProps, 
     }}
   />
 );

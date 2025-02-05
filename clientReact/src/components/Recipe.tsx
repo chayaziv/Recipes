@@ -54,7 +54,7 @@ const Recipe = () => {
       <Box display="flex" justifyContent="center" mt={4}>
         <Card
           sx={{
-            maxWidth: 700,
+            maxWidth: 'sm',
             width: "100%",
             maxHeight: "80vh",
             overflowY: "auto",
@@ -62,6 +62,7 @@ const Recipe = () => {
             borderRadius: 3,
             p: 2,
           }}
+      
         >
           <RecipeAuthor
             authorName={authorName || "Unknown"}
