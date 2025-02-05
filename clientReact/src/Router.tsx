@@ -10,11 +10,13 @@ import AddRecipe from "./components/AddRecipe";
 import Login from "./components/Login";
 import EditRecipe from "./components/EditRecipe";
 import Recipe from "./components/Recipe";
+import ErrorPage from "./components/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Home /> },
       { path: "about", element: <About /> },
